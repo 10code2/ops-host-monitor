@@ -1,0 +1,16 @@
+# ============================================================
+# ops-host-monitor 定时任务配置
+# 安装方法（二选一）：
+#   方法1：crontab -e 后粘贴以下内容
+#   方法2：(crontab -l 2>/dev/null; cat crontab_task.txt) | crontab -
+# 注意：crontab - 是覆盖式写入，追加用方法2
+# ============================================================
+
+# 每 30 分钟执行一次主机巡检
+*/30 * * * * /opt/ops-host-monitor/host_monitor.sh >> /var/log/host_monitor_cron.log 2>&1
+
+# 每天凌晨 3 点清理过期 Nginx 日志
+0 3 * * * /opt/ops-host-monitor/log_clean.sh
+
+# 每天凌晨 4 点备份配置文件
+0 4 * * * /opt/ops-host-monitor/config_backup.sh
